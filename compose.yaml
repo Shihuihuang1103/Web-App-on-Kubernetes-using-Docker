@@ -1,0 +1,21 @@
+services:
+  todo-app:
+    image: flask-app
+    ports:
+      - 3000:3000
+    depends_on:
+      - todo-database
+    environment:
+      MONGO_URI: mongodb://localhost:27017
+    
+
+  todo-database:
+    image: mongo:latest
+    restart: always
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb-data:/data/db  # Mount a volume for MongoDB data storage
+
+volumes:
+  mongodb-data:

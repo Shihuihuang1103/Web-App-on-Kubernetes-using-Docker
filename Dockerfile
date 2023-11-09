@@ -7,11 +7,13 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 COPY . /app
 
-CMD ["python3", "app.py"]
-
 EXPOSE 5000
 
-FROM builder as dev-envs
+CMD ["python3", "app.py"]
+
+
+
+#FROM builder as dev-envs
 
 # RUN <<EOF
 # apk update
@@ -24,6 +26,6 @@ FROM builder as dev-envs
 # EOF
 
 # install Docker tools (cli, buildx, compose)
-COPY --from=gloursdocker/docker / /
+#COPY --from=gloursdocker/docker / /
 
-CMD ["python3", "app.py"]
+#CMD ["python3", "app.py"]
