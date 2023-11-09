@@ -2,7 +2,7 @@ services:
   todo-app:
     image: flask-app
     ports:
-      - 3000:3000
+      - 8080:5000
     depends_on:
       - todo-database
     environment:
