@@ -1,9 +1,9 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: flask-app-deployment
+  name: flask-app
 spec:
-  replicas: 1  
+  replicas: 3
   selector:
     matchLabels:
       app: flask-app
@@ -13,12 +13,12 @@ spec:
         app: flask-app
     spec:
       containers:
-        - name: flask-app-container
-          image: cloudcomputing321/todo-app:latest  
-          ports:
-            - containerPort: 5000
-          env:
-            - name: MONGO-HOST
-              value: todo-database
-            - name: MONGO-PORT
-              value: "27017"
+      - name: flask-app
+        image: cloudcomputing321/todo-app:latest
+        ports:
+        - containerPort: 5000
+        env:
+        - name: MONGO_HOST
+          value: todo-database
+        - name: MONGO_PORT
+          value: "27017"

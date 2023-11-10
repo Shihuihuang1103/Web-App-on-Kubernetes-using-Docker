@@ -1,9 +1,8 @@
 # syntax=docker/dockerfile:1.4
-FROM --platform=$BUILDPLATFORM python:3.10-alpine AS builder
+FROM python:3.10-alpine3.15
 WORKDIR /app
 COPY requirements.txt /app/
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip3 install -r requirements.txt
+RUN pip3 install -r requirements.txt
 
 COPY . /app
 
@@ -14,6 +13,5 @@ ENV MONGO_HOST=todo-database
 ENV MONGO_PORT=27017
 
 # CMD ["python3", "app.py"]
-
 CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
 
