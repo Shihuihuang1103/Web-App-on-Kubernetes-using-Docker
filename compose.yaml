@@ -1,17 +1,18 @@
 services:
   todo-app:
-    image: flask-app
+    image: cloudcomputing321/todo-app
     ports:
-      - 8080:5000
+      - 5000:5000
     depends_on:
       - todo-database
-    environment:
-      MONGO_URI: mongodb://localhost:27017
+    # environment:
+    #   MONGO_HOST: localhost
+    #   MONGO_PORT: 27017
     
 
   todo-database:
     image: mongo:latest
-    restart: always
+    #restart: always
     ports:
       - 27017:27017
     volumes:

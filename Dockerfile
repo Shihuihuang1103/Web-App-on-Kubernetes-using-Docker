@@ -8,24 +8,12 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 COPY . /app
 
 EXPOSE 5000
+ENV FLASK_ENV=development
+ENV PORT=5000
+ENV MONGO_HOST=todo-database
+ENV MONGO_PORT=27017
 
-CMD ["python3", "app.py"]
+# CMD ["python3", "app.py"]
 
+CMD ["python3", "-m", "flask", "run", "--host=0.0.0.0"]
 
-
-#FROM builder as dev-envs
-
-# RUN <<EOF
-# apk update
-# apk add git
-# EOF
-
-# RUN <<EOF
-# addgroup -S docker
-# adduser -S --shell /bin/bash --ingroup docker vscode
-# EOF
-
-# install Docker tools (cli, buildx, compose)
-#COPY --from=gloursdocker/docker / /
-
-#CMD ["python3", "app.py"]
