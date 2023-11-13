@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    release: flask-app
+  name: alertmanager-flask-app
+data:
+  alertmanager.yml: |-
+    global:
+    route:
+      receiver: 'slack-notifications'
+    receivers:
+      - name: 'slack-notifications'
+        slack_configs:
+        - api_url: 'https://hooks.slack.com/services/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'
+          channel: '#general'

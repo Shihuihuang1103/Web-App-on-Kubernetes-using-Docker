@@ -4,6 +4,10 @@ metadata:
   name: flask-app
 spec:
   replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: flask-app
@@ -17,6 +21,18 @@ spec:
         image: cloudcomputing321/todo-app:latest
         ports:
         - containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+          initialDelaySeconds: 3
+          periodSeconds: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 5000
+          initialDelaySeconds: 3
+          periodSeconds: 3
         env:
         - name: MONGO_HOST
           value: todo-database

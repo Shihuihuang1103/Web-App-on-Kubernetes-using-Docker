@@ -10,6 +10,9 @@ client = MongoClient(mongodb_host, mongodb_port)    #Configure the connection to
 db = client.camp2016    #Select the database
 todos = db.todo #Select the collection
 
+fail_health = False
+fail_ready = False
+
 app = Flask(__name__)
 title = "TODO with Flask"
 heading = "ToDo Reminder"
@@ -19,6 +22,32 @@ def redirect_url():
 	return request.args.get('next') or \
 		request.referrer or \
 		url_for('index')
+  
+@app.route('/fail-liveness')
+def fail_liveness():
+	global fail_health
+	fail_health = True
+	return "Failing liveness check", 200
+
+@app.route('/healthz')
+def healthz():
+	print("fail_liveness value:", fail_liveness)
+	if fail_health:
+		return "Unhealthy", 500
+	return jsonify({"status": "healthy"}), 200
+
+@app.route('/fail-readiness')
+def fail_readiness():
+	global fail_ready
+	fail_ready = True
+	return "Failing readiness check", 200
+
+@app.route('/ready')
+def ready():
+	if fail_ready:
+		return "Not Ready", 500
+	else:
+		return jsonify({"status": "ready"}), 200
 
 @app.route("/list")
 def lists ():
